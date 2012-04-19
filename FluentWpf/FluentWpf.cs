@@ -6,6 +6,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using System.Windows.Documents;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Media.Imaging;
 
 namespace FluentWpf
 {
@@ -97,5 +101,66 @@ namespace FluentWpf
 
         public static CommandBinding AddExecuted(this CommandBinding obj, ExecutedRoutedEventHandler proc)
         { obj.Executed += proc; return obj; }
+    }
+
+    public static class FluentTextElement
+    {
+        public static T SetFontSize<T>(this T obj, double val)
+            where T : TextElement
+        { obj.FontSize = val; return obj; }
+    }
+
+    public static class FluentList
+    {
+        public static List SetMarkerStyle(this List obj, TextMarkerStyle val)
+        { obj.MarkerStyle = val; return obj; }
+
+        public static List AddListItems(this List obj, params ListItem[] elts)
+        { Array.ForEach(elts, elt => obj.ListItems.Add(elt)); return obj; }
+
+    }
+
+    public static class FluentGradientBrush
+    {
+        public static T AddGradientStops<T>(this T obj, params GradientStop[] elts)
+            where T : GradientBrush
+        { Array.ForEach(elts, obj.GradientStops.Add); return obj; }
+    }
+
+    public static class FluentRenderTargetBitmap
+    {
+        public static RenderTargetBitmap _Render(this RenderTargetBitmap obj, Visual visual)
+        { obj.Render(visual); return obj; }
+    }
+
+    public static class FluentVisualCollection
+    {
+        public static VisualCollection _Add(this VisualCollection obj, Visual visual)
+        { obj.Add(visual); return obj; }
+    }
+
+    public static class FluentAnimatable
+    {
+        public static T _BeginAnimation<T>(this T obj, DependencyProperty dp, AnimationTimeline animation)
+            where T : Animatable
+        { obj.BeginAnimation(dp, animation); return obj; }
+    }
+
+    public static class FluentTimeline
+    {
+        public static T AddCompleted<T>(this T obj, EventHandler val)
+            where T : Timeline
+        { obj.Completed += val; return obj; }
+    }
+
+    public static class FluentDependencyObject
+    {
+        public static T TextElementSetFontSize<T>(this T obj, double val)
+            where T : DependencyObject
+        { TextElement.SetFontSize(obj, val); return obj; }
+
+        public static T TextElementSetFontStyle<T>(this T obj, FontStyle val)
+            where T : DependencyObject
+        { TextElement.SetFontStyle(obj, val); return obj; }
     }
 }
