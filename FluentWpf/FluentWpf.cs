@@ -162,5 +162,31 @@ namespace FluentWpf
         public static T TextElementSetFontStyle<T>(this T obj, FontStyle val)
             where T : DependencyObject
         { TextElement.SetFontStyle(obj, val); return obj; }
+
+        static Random random;
+
+        public static T1 SetTargetObject<T1, T2>(this T1 obj, T2 element, object target, PropertyPath propertyPath)
+            where T1 : DependencyObject
+            where T2 : FrameworkElement
+        {
+            if (random == null) random = new Random();
+            var name = "name_" + random.Next().ToString();
+            element.RegisterName(name, target);
+            Storyboard.SetTargetName(obj, name);
+            Storyboard.SetTargetProperty(obj, propertyPath);
+            return obj;
+        }
+
+        public static T1 SetTargetObject<T1, T2>(this T1 obj, T2 element, object target, DependencyProperty property)
+            where T1 : DependencyObject
+            where T2 : FrameworkElement
+        { return obj.SetTargetObject(element, target, new PropertyPath(property)); }
+    }
+
+    public static class FluentTimelineGroup
+    {
+        public static T AddChildren<T>(this T obj, params Timeline[] elts)
+            where T : TimelineGroup
+        { Array.ForEach(elts, elt => obj.Children.Add(elt)); return obj; }
     }
 }
