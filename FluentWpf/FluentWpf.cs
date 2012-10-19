@@ -189,4 +189,19 @@ namespace FluentWpf
             where T : TimelineGroup
         { Array.ForEach(elts, elt => obj.Children.Add(elt)); return obj; }
     }
+
+    public static class FluentTextBlock
+    {
+        public static T AddInline<T>(this T obj, Inline elt)
+            where T : TextBlock
+        { obj.Inlines.Add(elt); return obj; }
+
+        public static T AddInline<T>(this T obj, string elt)
+            where T : TextBlock
+        { obj.Inlines.Add(elt); return obj; }
+
+        public static T AddInline<T>(this T obj, UIElement elt)
+            where T : TextBlock
+        { obj.Inlines.Add(elt); return obj; }
+    }
 }
